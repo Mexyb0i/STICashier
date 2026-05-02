@@ -1,56 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom';
-import IdEntry from './pages/IdEntry';
-import StudentPortal from './pages/LoginPortal';
-import Dashboard from './pages/Dashboard';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import StudentPortal from './pages/StudentPortal';
 import StudentPayment from './pages/StudentPayment';
-import SubjectsOverview from './pages/SubjectsOverview';
-import SubjectsForPayment from './pages/SubjectsForPayment';
-import './styles.css';
+import logo from './assets/sti-logo.png';
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Checks if the user was already logged in when the page refreshes 
-  useEffect(() => {
-    const token = localStorage.getItem('authToken');
-    if (token) setIsLoggedIn(true);
-  }, []);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    localStorage.removeItem('authToken');
-  };
+function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
 
   return (
     <BrowserRouter>
-      {/* The class changes based on login status to keep your dashboard design safe  */}
-      <div className={`app-shell ${isLoggedIn ? 'has-sidebar' : 'no-sidebar'}`}>
-        
-        <main className="content">
-          <Routes>
-            <Route path="/" element={<IdEntry />} />
-            
-            {/* Login Route: Passes the handleLogin function  */}
-            <Route 
-              path="/login" 
-              element={isLoggedIn ? <Navigate to="/dashboard" /> : <StudentPortal onLogin={handleLogin} />} 
-            />
+      <div className="shell">
+        <header className="topbar">
+          <div className="topbar-inner">
+            <div className="brand-wrap">
+              <img className="logo-img" src={logo} alt="STI logo" />
+              <div className="brand-title">
+                <span className="brand-text">STI Cashier</span>
+              </div>
+            </div>
+          </div>
+        </header>
 
-            {/* Protected Routes: Redirects to /login if not authenticated  */}
-            <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
-            <Route path="/payment" element={isLoggedIn ? <StudentPayment /> : <Navigate to="/login" />} />
-            <Route path="/subjects" element={isLoggedIn ? <SubjectsOverview /> : <Navigate to="/login" />} />
-            <Route path="/process" element={isLoggedIn ? <SubjectsForPayment /> : <Navigate to="/login" />} />
-            
-            <Route path="*" element={<Navigate to="/" />} />
+        <div className="content">
+          <Routes>
+            <Route
+              path="/"
+              element={<StudentPortal onLogin={() => setLoggedIn(true)} />}
+            />
+            <Route
+              path="/payment"
+              element={loggedIn ? <StudentPayment /> : <Navigate to="/" replace />}
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </main>
+        </div>
       </div>
     </BrowserRouter>
   );
 }
+
+export default App;
