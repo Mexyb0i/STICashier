@@ -18,7 +18,7 @@ export default function IdEntry() {
           <input className="input" placeholder="e.g. 2024-123456" />
           <button className="primary">View Student Account</button>
         </form>
-        <p className="muted">Authorized Cashier Access Only â€¢ STI Internal System</p>
+        <p className="muted">Authorized Cashier Access Only • STI Internal System</p>
       </div>
     </div>
   );

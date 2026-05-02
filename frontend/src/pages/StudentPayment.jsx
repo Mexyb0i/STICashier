@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import PaymentModal from '../components/PaymentModal';
 
-export default function StudentPayment() {
+function StudentPayment() {
   const [payments, setPayments] = useState([
     { id: 1, date: '1/12/26', desc: 'Entrance Fee', amount: 3000 },
     { id: 2, date: '1/12/26', desc: 'Blouse Uniform', amount: 300 },
@@ -24,26 +24,39 @@ export default function StudentPayment() {
 
   return (
     <div>
-      <div className="filters">
-        <div className="filter-item">
-          <label className="filter-label">Course</label>
-          <select className="input w-180">
-            <option>BSIT</option>
-          </select>
+      <div className="page-header">
+        <div className="page-header-left">
+          <div className="logo-box">
+            <img src="https://one.sti.edu/images/sti_logo.png" alt="STI Logo" className="logo-img" />
+          </div>
         </div>
 
-        <div className="filter-item">
-          <label className="filter-label">Year Level</label>
-          <select className="input w-80">
-            <option>1</option>
-          </select>
-        </div>
+        <div className="page-header-right">
+          <div className="filters">
+            <div className="filter-item">
+              <label className="filter-label">Course</label>
+              <select className="input w-180">
+                <option>BSIT – Bachelor of Science in Information Technology</option>
+                <option>BSTM – Bachelor of Science in Tourism Management</option>
+                <option>BSBA – Bachelor of Science in Business Administration</option>
+                <option>BSHM – Bachelor of Science in Hospitality Management</option>
+              </select>
+            </div>
 
-        <div className="filter-item">
-          <label className="filter-label">Semester</label>
-          <select className="input w-100">
-            <option>1st</option>
-          </select>
+            <div className="filter-item">
+              <label className="filter-label">Year Level</label>
+              <select className="input w-80">
+                <option>1</option>
+              </select>
+            </div>
+
+            <div className="filter-item">
+              <label className="filter-label">Semester</label>
+              <select className="input w-100">
+                <option>1st</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -126,3 +139,4 @@ export default function StudentPayment() {
     </div>
   );
 }
+export default StudentPayment;

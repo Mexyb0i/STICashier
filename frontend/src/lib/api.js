@@ -24,12 +24,30 @@ async function request(path, opts = {}) {
   return data;
 }
 
-export function login(studentId, password) {
+export function login(studentId, password, role) {
   return request('/api/auth/login', {
     method: 'POST',
-    body: JSON.stringify({ student_id: studentId, password }),
+    body: JSON.stringify({ student_id: studentId, password, role }),
     // If you plan to use cookie-based auth (Laravel Sanctum), set credentials to 'include'
     // credentials: 'include'
+  }).catch((err) => {
+    const isNetworkError = !err.status || err.status === 0;
+    if (isNetworkError) {
+      return mockLogin(studentId, password, role);
+    }
+    throw err;
+  });
+}
+
+function mockLogin(studentId, password, role) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        token: 'mock-token',
+        name: role === 'admin' ? 'Administrator' : studentId,
+        mocked: true,
+      });
+    }, 300);
   });
 }
 
